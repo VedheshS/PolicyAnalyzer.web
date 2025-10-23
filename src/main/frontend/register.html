@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Analyzer - Register</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>🔒 Privacy Analyzer</h1>
+    <h2>Register</h2>
+    <form id="registerForm">
+        <input type="text" id="registerUsername" placeholder="Username" required>
+        <input type="password" id="registerPassword" placeholder="Password" required>
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+</div>
+
+<script>
+const registerForm = document.getElementById("registerForm");
+const API_URL = "http://localhost:8080/api";
+
+registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const username = document.getElementById("registerUsername").value;
+    const password = document.getElementById("registerPassword").value;
+
+    const res = await fetch(`${API_URL}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+    alert(data.message);
+    if (data.status === "success") {
+        window.location.href = "login.html"; // redirect to login after register
+    }
+});
+</script>
+</body>
+</html>
